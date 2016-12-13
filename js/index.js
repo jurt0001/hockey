@@ -320,7 +320,7 @@ function standingsData(data) {
         let theTeamName = tName.split(" ").join("_"); //giving team name underscores
         console.log(theTeamName); //making sure i'm getting the right thing.
         let iconDiv = document.getElementById("icons");  //selecting the div where my svg's are stored.
-        iconDiv.classList.add(theTeamName);
+//        iconDiv.className += theTeamName;
         console.log(iconDiv);
         
 
