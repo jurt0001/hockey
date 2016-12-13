@@ -307,7 +307,7 @@ function standingsData(data) {
         let tr = document.createElement("tr");
         let tdn = document.createElement("td"); //creating a table cell
         let logo = document.createElement("div"); //creating the icons element inside my table cell
-        logo.setAttribute("id", "icons"); //setting the icons element with a class
+        logo.id = "icons"; //setting the icons element with a class
         let originalSVG = document.querySelector("section.template svg"); //locating my orginal SVG element
         let copySVG = originalSVG.cloneNode(true); //Cloning my SVG
         logo.appendChild(copySVG); //Appending the cloned SVG into the table cell beside all my team names
@@ -319,9 +319,11 @@ function standingsData(data) {
         let tName = tdn.innerHTML = value.teamName; //printing the team name into the table
         let theTeamName = tName.split(" ").join("_"); //giving team name underscores
         console.log(theTeamName); //making sure i'm getting the right thing.
-        let iconDiv = document.getElementById("icons");  //selecting the div where my svg's are stored.
+        
+        let iconDiv = document.querySelector("#icons");  //selecting the div where my svg's are stored.
 //        iconDiv.className += theTeamName;
         console.log(iconDiv);
+        tdn.appendChild(logo);
         
 
         
@@ -344,7 +346,7 @@ function standingsData(data) {
         
         tdp.innerHTML = value.pts;
         
-  tdn.appendChild(logo);
+  
 //  tdw.appendChild(logo);
 //  tdl.appendChild(logo);  
 //  tdt.appendChild(logo);
