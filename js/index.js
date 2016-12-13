@@ -1,5 +1,6 @@
 "use strict";
 
+
 if( document.deviceready){
         	document.addEventListener('deviceready', onDeviceReady, false);
 		}else{
@@ -8,21 +9,17 @@ if( document.deviceready){
 
 document.getElementById("button1").addEventListener("click", refresh);
 
-
-
-let pages = []; // used to store all our screens/pages
-let links = []; // used to store all our navigation links
+let pages = [];
+let links = []; 
 
 function onDeviceReady() {
    pages = document.querySelectorAll('[data-role="page"]');
-
-    links = document.querySelectorAll('[data-role="nav"] a');
+   links = document.querySelectorAll('[data-role="nav"] a');
      
     for(let i=0; i<links.length; i++) {
         links[i].addEventListener("click", navigate);
     }
-  // create some fake data so you can see how to use a table
-//   let jurt0001 = "jurt0001";
+
     if(!localStorage.getItem("jurt0001")){
       serverData.getJSON();
         console.log("its running serverData.getJSON");  
@@ -41,7 +38,7 @@ function onDeviceReady() {
         
     }
 
-//    displayData();
+
     
 }
 
@@ -49,11 +46,8 @@ function navigate(ev) {
     ev.preventDefault(); 
 
     let link = ev.currentTarget; 
-  console.log(link);
-  // split a string into an array of substrings using # as the seperator
-    let id = link.href.split("#")[1]; // get the href page name
-  console.log(id);
-    //update what is shown in the location bar
+    let id = link.href.split("#")[1]; 
+    
     history.replaceState({}, "", link.href);
     
     for(let i=0; i<pages.length; i++) {
@@ -70,104 +64,63 @@ let serverData = {
     httpRequest: "GET",
     getJSON: function () {
         
-        // Add headers and options objects
-        // Create an empty Request Headers instance
         let headers = new Headers();
-
-        // Add a header(s)
-        // key value pairs sent to the server
 
         headers.append("Content-Type", "text/plain");
         headers.append("Accept", "application/json; charset=utf-8");
+//        console.dir("headers: " + headers.get("Content-Type"));
+//        console.dir("headers: " + headers.get("Accept"));
         
-        // simply show them in the console
-        console.dir("headers: " + headers.get("Content-Type"));
-        console.dir("headers: " + headers.get("Accept"));
-        
-        // Now the best way to get this data all together is to use an options object:
-        
-         // Create an options object
         let options = {
             method: serverData.httpRequest,
             mode: "cors",
             headers: headers
         };
         
-        // Create an request object so everything we need is in one package
         let request = new Request(serverData.url, options);
-//        console.log(request);
            
         fetch(request)
             .then(function (response) {
 
-        //       console.log(response.json);
                 return response.json();
             })
             .then(function (data) {
+            
         setStorage(data);
-        displayData(data);
-           
-//                console.log(data); // now we have JS data, let's display it
-//            var j = JSON.stringify(data);
-//            console.log(j);
-//            localStorage.setItem("jurt0001", j);
-
-                // Call a function that uses the data we recieved  
-//                
+        displayData(data);  
+            
             })
             .catch(function (err) {
                 alert("Error: " + err.message);
             });
-        
-        
-        
     }
-    
-    
 
 };
 
 function setStorage(data) {
    let j = JSON.stringify(data);
     localStorage.setItem("jurt0001", j);
-    
     console.log("Set Storage is working");
     
 }
 
-//function displayStorage(data) {
-//    localStorage.getItem("jurt0001");
-//    
-//    console.log("Set Storage is working");
-//    
-//}
-
-
 function refresh(){
-        localStorage.clear();
-//        onDeviceReady(); 
-    serverData.getJSON();
+        localStorage.clear(); 
+        serverData.getJSON();
 }
 
+
+
 function displayData(data) {
-//  console.log(data);
-  
-//  localStorage.setItem("jurt0001",JSON.stringify(data));
     
     var myScoreData = JSON.parse(localStorage.getItem("jurt0001"));
-//    console.log("From LS: ")
-    console.log("HELLO");
-    console.log(myScoreData);
+
+//    console.log(myScoreData);
         
-    //get our schedule
     let ul = document.getElementById("results");
-    ul.innerHTML = ""; //clear exisiting list items
+    ul.innerHTML = ""; 
 
-    //Create list items for each match in schedule.
-
-    myScoreData.scores.forEach(function(value) {             // Loop for Date
-//        let li = document.createElement("li");
-//        li.className = "score";
+    myScoreData.scores.forEach(function (value) {            
         
         let date = document.createElement("h3");
         date.textContent = value.date;
@@ -180,27 +133,44 @@ function displayData(data) {
         let schedule = "";
         
         ul.appendChild(date);
+//        console.log(myScoreData.scores.games.length);
+        
+//    if (value.games.home_score > value.games.away_score){
+//        console.log(home_score);
+//    }
+        
         
     schedule = document.createElement("div");
-    schedule.className = "schedule";        
-          value.games.forEach(function(item) {               //loop game scores
+    schedule.className = "schedule";      
         
-        function getTeamName(teams, id) {                      //loop for getting team names.
+    value.games.forEach(function(item) {  
+//        let homey = textContent.home_score;
+//console.log(homey);
+//        
+//    if(value.home_score > value.away_score){
+//            console.log("home wins");    
+//    }
+        
+        
+        function getTeamName(teams, id) {                      
             for (let i = 0; i < teams.length; i++) {
                 if (teams[i].id == id) {
-//                    let names = teams[i].name;
-//                    matchUp.textContent += names;
-//                    console.log(teams[i].name);
-                    console.log("displayData is running too AHHHH");
+
+//                    console.log("getTeamName is running");
                     
                     return teams[i].name;
-                    }    
+                }      
             }
-            return "unknown";
+            
         }
+        
+//        stats.push({"id":teams[i].id, "name":teams[i].name}); 
+//        console.log(stats);
 
         let aT = getTeamName(data.teams, item.away);
         let hT = getTeamName(data.teams, item.home); 
+        
+
     
         matchUp = document.createElement("div");
         matchUp.className = "matchUp";
@@ -214,77 +184,239 @@ function displayData(data) {
         homeTeam = document.createElement("p");  
         homeTeam.textContent += hT;
         
-        
         ul.appendChild(schedule);
         schedule.appendChild(matchUp);
         matchUp.appendChild(awayTeam);
         matchUp.appendChild(vs);       
-        matchUp.appendChild(homeTeam); 
-              
-
-//        matchUp.textContent = item.away;
-//        matchUp.textContent += " " + "   VS   " + " ";  
-//        matchUp.textContent += item.home;    
+        matchUp.appendChild(homeTeam);   
               
                     });
 
-//        h2.textContent = value.date;
-//        var vs = awayTeam + " vs " + homeTeam;
-
-//        ul.appendChild(date);
-        
-       
-//        ul.appendChild(awayScore);
-//        ul.appendChild(homeScore);
-        
-//      matchUp.appendChild(awayTeam); 
-//      matchUp.appendChild(homeTeam)
-
-    })
+                               })
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function standingsData() {
+                               
+function standingsData(data) {
    let tbody = document.querySelector("#teamStandings tbody");
   
-  let wins = 45;
-  let losses = 34;
-  let ties = 2;
-  let points = 110;
-  let name = "Ottawa Senators";
+    var myScoreData = JSON.parse(localStorage.getItem("jurt0001"));
+    console.log(myScoreData);
+        
+    myScoreData.scores.forEach(function (value) {
+    
+  
+        
+//         let aT = TeamNames(data.teams, item.away);
+//        let hT = TeamNames(data.teams, item.home); 
+    
+    })
+    
+//    console.log(aT);
+//    console.log(hT);
+    
+    
+    
+    let scores = myScoreData.scores; 
+    let teams = myScoreData.teams;
+    
+    let scoresId = scores.games;
+    
+//    console.log(scoresId);
+    
+        
+//    teams.forEach(function (item){
+//        console.log(item.id)
+//        
+//        if(item.id == id){
+//            
+//        return item.name;
+//        
+//    }              
+//                      
+//                      
+//                      })
+        
+    
+    
+       
+    let stats = [];
+    
+//      console.log(teams);
+    
+    teams.forEach(function (value){
+           var team = {
+            teamId: value.id, 
+            teamName: teamNames(teams, value.id),
+               wins: 0,
+               losses: 0,
+               ties: 0,
+               pts: 0
+               
+           }
+//           console.log(team); 
+           stats.push(team);
 
-  //Sample Tables stuff here:
-  let tr = document.createElement("tr");
-  let tdn = document.createElement("td");
-  tdn.textContent = name;
-  let tdw = document.createElement("td");
-  tdw.textContent = wins;
-  let tdl = document.createElement("td");
-  tdl.textContent = losses;
-  let tdt = document.createElement("td");
-  tdt.textContent = ties;
-  let tdp = document.createElement("td");
-  tdp.textContent = points;
+       });
+
+    for (let i=0; i < myScoreData.scores.length; i++){
+//        console.log("there is this many days");
+      
+        
+    for (let g=0; g < myScoreData.scores[g].games.length; g++){
+
+        let homeScore = myScoreData.scores[i].games[g].home_score;
+        let awayScore = myScoreData.scores[i].games[g].away_score;
+        let homeTeam = myScoreData.scores[i].games[g].home;
+        let awayTeam = myScoreData.scores[i].games[g].away;
+
+//        if(myScoreData.scores[i].games[g].home_score > myScoreData.scores[i].games[g].away_score && homeTeam == stats[i].teamId){
+//            
+  
+        if(homeScore > awayScore) {
+            for (var x = 0; x < stats.length; x++){ if (homeTeam == stats[x].teamId){ stats[x].wins++; stats[x].pts += 2; stats[x].losses += 0; stats[x].ties += 0; }}    
+        }
+        
+         if(awayScore > homeScore) {
+            for (var x = 0; x < stats.length; x++){ if (awayTeam == stats[x].teamId){ stats[x].wins++; stats[x].pts += 2; stats[x].losses += 0; stats[x].ties += 0; }}    
+        }
+        
+        if(awayScore == homeScore) {
+            for (var x = 0; x < stats.length; x++){ if (homeTeam == stats[x].teamId){ stats[x].wins += 0; stats[x].pts += 1; stats[x].losses += 0; stats[x].ties += 1; }}    
+        }
+        
+        if(awayScore == homeScore) {
+            for (var x = 0; x < stats.length; x++){ if (awayTeam == stats[x].teamId){ stats[x].wins += 0; stats[x].pts += 1; stats[x].losses += 0; stats[x].ties += 1; }}    
+        }
+        
+         if(homeScore > awayScore) {
+            for (var x = 0; x < stats.length; x++){ if (awayTeam == stats[x].teamId){ stats[x].wins += 0; stats[x].pts += 0; stats[x].losses += 1; stats[x].ties += 0; }}    
+        }
+        
+         if(awayScore > homeScore) {
+            for (var x = 0; x < stats.length; x++){ if (homeTeam == stats[x].teamId){ stats[x].wins += 0; stats[x].pts += 0; stats[x].losses += 1; stats[x].ties += 0; }}    
+        
+            }
+        }
+        
+        
+    }
+
+    
+    
+    stats.forEach(function(value){
+     
+        let tr = document.createElement("tr");
+        let tdn = document.createElement("td"); //creating a table cell
+        let logo = document.createElement("icons"); //creating the icons element inside my table cell
+        logo.setAttribute("id", "icons"); //setting the icons element with a class
+        let originalSVG = document.querySelector("section.template svg"); //locating my orginal SVG element
+        let copySVG = originalSVG.cloneNode(true); //Cloning my SVG
+        logo.appendChild(copySVG); //Appending the cloned SVG into the table cell beside all my team names
+
+    
+        
+        
+        
+        let tName = tdn.innerHTML = value.teamName; //printing the team name into the table
+        let theTeamName = tName.split(" ").join("_"); //giving team name underscores
+        console.log(theTeamName); //making sure i'm getting the right thing.
+        let iconDiv = document.querySelector("#icons");//selecting the div where my svg's are stored.
+        iconDiv.classList.add(theTeamName);
+        console.log(iconDiv);
+        
+
+        
+        
+        let tdw = document.createElement("td");
+        
+        
+        
+        tdw.innerHTML = value.wins;
+        let tdl = document.createElement("td");
+     
+        
+        tdl.innerHTML = value.losses;
+        let tdt = document.createElement("td");
+       
+        
+        tdt.innerHTML = value.ties;
+        let tdp = document.createElement("td");
+      
+        
+        tdp.innerHTML = value.pts;
+        
+  tdn.appendChild(logo);
+//  tdw.appendChild(logo);
+//  tdl.appendChild(logo);  
+//  tdt.appendChild(logo);
+//  tdp.appendChild(logo);
+          
+  
   tr.appendChild(tdn);
   tr.appendChild(tdw);
   tr.appendChild(tdl);
   tr.appendChild(tdt);
   tr.appendChild(tdp);
-  tbody.appendChild(tr);
+  tbody.appendChild(tr);     
+    });
+
 }
+
+
+//stats.sort(function (a,b) {
+//               return b.points - a.points;
+//               })
+
+
+
+
+function teamNames(teams, id) {                      
+            for (let i = 0; i < teams.length; i++) {
+                if (teams[i].id == id) {
+//                    console.log("my team names function is running");
+                    
+                    return teams[i].name;
+                }      
+            }
+            
+        } 
+
+//function sorting(property) {
+//    var sortOrder = 1;
+//    if(property[0] === "-"){
+//        sortOrder = -1;
+//        property = property.substr(1);
+//    }
+//    return function (b,a) {
+//        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+//        return result * sortOrder;
+//    }
+//  
+//}
+
+
+
+
+//  let wins = 45;
+//  let losses = 34;
+//  let ties = 2;
+//  let points = 110;
+//  let name = "Ottawa Senators";
+//
+// 
+//  let tr = document.createElement("tr");
+//  let tdn = document.createElement("td");
+//  tdn.textContent = name;
+//  let tdw = document.createElement("td");
+//  tdw.textContent = wins;
+//  let tdl = document.createElement("td");
+//  tdl.textContent = losses;
+//  let tdt = document.createElement("td");
+//  tdt.textContent = ties;
+//  let tdp = document.createElement("td");
+//  tdp.textContent = points;
+//  tr.appendChild(tdn);
+//  tr.appendChild(tdw);
+//  tr.appendChild(tdl);
+//  tr.appendChild(tdt);
+//  tr.appendChild(tdp);
+//  tbody.appendChild(tr);

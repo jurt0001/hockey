@@ -3,10 +3,11 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+/*
 body {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    -webkit-touch-callout: none;               
+    -webkit-text-size-adjust: none;             
+    -webkit-user-select: none;                   
     background-color:#E4E4E4;
     background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -27,6 +28,7 @@ body {
     text-transform:uppercase;
     width:100%;
 }
+*/
 
 /* Portrait layout (default) */
 .appVOID {
@@ -34,8 +36,10 @@ body {
     position:absolute;             /* position in the center of the screen */
     left:50%;
     top:50%;
-    height:50px;                   /* text area height */
-    width:225px;                   /* text area width */
+/*
+    height:50px;                   
+    width:225px;                   
+*/
     text-align:center;
     padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
     margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
@@ -238,11 +242,51 @@ main {
     top: 0;
     right: 0;
     font-size: 1.03rem;
-    z-index: 100;    
-    
-    
-    
+    z-index: 100;      
 }
+
+.template{
+  display: none;
+}
+
+#icons svg{
+  width: 50px;
+  height: auto;
+}
+
+#icons svg #Ottawa_Senators {
+  display: none;
+}
+
+.Ottawa_Senators #Ottawa Senators {
+  display: block
+  
+}
+
+
+
+	.st0{display:block;}
+	.st1{display:inline;fill:#CE1227;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st2{display:inline;}
+	.st3{display:inline;fill:#FCB514;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st4{display:inline;fill:#041E41;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st5{fill:#F0F0F0;}
+	.st6{display:inline;fill:#002654;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st7{fill:#FFFFFF;}
+	.st8{display:inline;fill:#00205B;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st9{fill:#FEFEFE;}
+	.st10{display:inline;fill:#FF0000;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st11{display:inline;fill:#F74902;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st12{fill:#A3A3A3;}
+	.st13{display:inline;fill:#CE1126;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st14{display:inline;fill:#F95602;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st15{display:inline;fill:#0038A8;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st16{display:inline;fill:#002868;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st17{display:inline;fill:#3ACC41;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+	.st18{display:inline;fill:#BF910C;stroke:#000000;stroke-width:6;stroke-miterlimit:10;}
+
+
+
 
 
 
